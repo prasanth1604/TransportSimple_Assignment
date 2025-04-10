@@ -42,16 +42,16 @@ class ProfileUpdateForm(forms.ModelForm):
 class QuestionAskForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['title' , 'body']
+        fields = ['body']
 
 
 class QuesUpdateForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['title','body']
+        fields = ['body']
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['content',]
+        fields = ['content']
