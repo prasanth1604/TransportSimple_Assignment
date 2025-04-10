@@ -1,3 +1,6 @@
+*/migrations/*.py
+*/migrations/*.pyc
+*/migrations/__pycache__/
 *.pyc
 *.pyo
 *.pyd
