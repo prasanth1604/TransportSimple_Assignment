@@ -1,7 +1,6 @@
 {% extends 'ques_detail.html' %}
 {% load tags %}
 {% block commentreply %}
-	sparsh
 	<h4>Reply below:</h4>
 	<form method="POST" action="{% url 'askme:comment_reply' comment.id %}">
 		{% csrf_token %}
