@@ -13,7 +13,7 @@
 	<div>
 		{% for reply in replies %}
 			<p>{{ reply.content }}</p>
-			<pre>by-{{reply.user}}        -- {{reply.timestamp}}</pre>
+			<pre>by-{{reply.user}} -- {{reply.timestamp}}</pre>
 		{% endfor %}
 	</div>
 

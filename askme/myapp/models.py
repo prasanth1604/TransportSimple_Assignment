@@ -15,7 +15,6 @@ class Question(models.Model):
     slug = models.SlugField(max_length=120)
     author = models.ForeignKey(User , related_name='blog_posts' , on_delete=models.CASCADE)
     body = models.TextField()
-    likes = models.ManyToManyField(User , related_name='post_likes',blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -27,6 +26,7 @@ class Comment(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_comment')
     ques = models.ForeignKey(Question,on_delete=models.CASCADE,related_name='ques_comment')
+    likes = models.ManyToManyField(User , related_name='comment_likes',blank=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

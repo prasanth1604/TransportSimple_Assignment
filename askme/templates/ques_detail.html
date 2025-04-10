@@ -7,52 +7,41 @@
 	<h2 class="display-6">Question Details</h2>
 	<hr class="my-4">
 	<div>
-		<h2><p>Title: {{q.title}}</p></h2>
 		<p><strong>Author: </strong><a href="{% url 'askme:profilepage' q.author %}">{{q.author}}</a>
 		<span class="float-right">
 			<span class="badge badge-secondary">Created: {{q.created}}</span>
 			<span class="badge badge-secondary">Updated: {{q.updated}}</span>
 		</span></p>
-		<h4>Description:</h4><h6>{{q.body}}</h6>
+		<h4>Question:</h4><h3>{{q.body}}</h3>
 	</div>
 	<hr class="my-4">
-	<div class="reaction">
-		<form action="{% url 'askme:ques_likes' %}" method="POST">
-			{% csrf_token %}
-			{% if is_liked %}
-				<button class="btn btn-danger" type="submit" name="q_id" value="{{ q.id }}"><i class="fas fa-thumbs-up"></i> Dislike <span class="badge badge-light">{{ likes_count }}</span></button>
-			{% else %}
-				<button class="btn btn-outline-danger" type="submit" name="q_id" value="{{ q.id }}"><i class="fa fa-thumbs-up"></i> Like <span class="badge badge-light">{{ likes_count }}</span></button>
-			{% endif %}
-		</form>
-	</div>
+	
 
-	<div class="reaction2">
-		{% if request.user == q.author %}
-			<!-- <br> -->
-			<button type="button" class="btn btn btn-outline-danger mb-2" data-toggle="modal" data-target="#exampleModalCenter">
-				<i class="fas fa-trash"></i> Delete
-			</button>
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">Delete Question?</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		{% endif %}
-	</div>
 </div>
 <hr class="my-4">
-		<h4>{{ comments.count}} Comments</h4>
+		<h4>{{ comments.count}} Answers </h4>
 		<hr class="my-4">
 			{% for comment in comments %}
+			<!-- ques_detail.html -->
+
+			<p>{{ comment.content }} ({{ comment.likes.count }} likes)</p>
+			{% if request.user in comment.likes.all %}
+				<button class="btn btn-outline-danger btn-sm">
+					<i class="fas fa-thumbs-down">
+						<a href="{% url 'askme:like_comment' q.id comment.id %}">Unlike</a>
+					</i> 
+				</button>
+				
+			{% else %}
+				<button class="btn btn-outline-danger btn-sm">
+					<i class="fas fa-thumbs-up">
+						<a href="{% url 'askme:like_comment' q.id comment.id %}">Like</a>
+					</i> 
+				</button>
+				
+			{% endif %}
 			<div class="media">
-				<img style="background-color: inherit;" class="mr-3" height="30" width="30" src="{% static 'comments.png' %}" alt="Generic placeholder image">
+				<img style="background-color: inherit;" class="mr-3" height="30" width="30" src="{% static 'image.png' %}" alt="Generic placeholder image">
 				<div class="media-body">
 					<h5 class="mt-0">
 						<p><strong>@</strong><a href="{% url 'askme:profilepage' comment.user %}">{{comment.user}}</a>
@@ -73,7 +62,7 @@
 					{% for reply in replies|in_category:comment %}
 						<div class="media mt-3">
 							<p class="pr-3" href="#">
-								<img style="background-color: inherit;" src="{% static 'comments.png' %}" height="30" width="30" alt="Generic placeholder image">
+								<img style="background-color: inherit;" src="{% static 'image.png' %}" height="30" width="30" alt="Generic placeholder image">
 							</p>
 							
 							<div class="media-body">
@@ -106,13 +95,13 @@
 			</div>
 			{% endfor %} 
 
-		<h4>Add your comment below:</h4>
+		<h4>Add your answer below:</h4>
 		<form method="POST">
     		{% csrf_token %}
     		<div class="form-group">
         {{ comment_form.content }}
     </div>
-    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-comment"></i> Comment</button>
+    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-comment"></i> Post answer</button>
 </form>
 <br><br>
 		<br><br>
