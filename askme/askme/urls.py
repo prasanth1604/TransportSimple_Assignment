@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from myapp import views
 
 urlpatterns = [
-    path('',views.ques_list),
+    path('',views.ques_feed),
     path('admin/', admin.site.urls),
     path('quora/',include('myapp.urls'),name = 'quora'),
     path('',include('django.contrib.auth.urls')),

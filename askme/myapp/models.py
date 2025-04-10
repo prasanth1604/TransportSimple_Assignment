@@ -12,7 +12,6 @@ class Profile(models.Model):
 
 class Question(models.Model):
 
-    title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=120)
     author = models.ForeignKey(User , related_name='blog_posts' , on_delete=models.CASCADE)
     body = models.TextField()
@@ -21,7 +20,7 @@ class Question(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.body
 
 
 class Comment(models.Model):
@@ -32,7 +31,7 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '{}-{}'.format(self.ques.title , self.user.username)
+        return '{}-{}'.format(self.ques.body , self.user.username)
 
 
 
@@ -45,4 +44,4 @@ class Replies(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '{}-{}-{}'.format(self.comment.id,self.ques.title,self.user.username)
+        return '{}-{}-{}'.format(self.comment.id,self.ques.body,self.user.username)

@@ -8,14 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 
-def ques_list(request):
+def ques_feed(request):
 
     ques = Question.objects.all().order_by('-id')
     context = {
         'ques' : ques
     }
 
-    return render(request , 'quora/ques_list.html' , context = context)
+    return render(request , 'ques_feed.html' , context = context)
 
 
 def ques_detail(request,id):
@@ -99,7 +99,7 @@ def comment_reply(request,id):
 
 def user_login(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('quora:ques_list'))
+        return HttpResponseRedirect(reverse('quora:ques_feed'))
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -113,7 +113,7 @@ def user_login(request):
 
                 if user.is_active:
                     login(request,user)
-                    return HttpResponseRedirect(reverse('quora:ques_list'))
+                    return HttpResponseRedirect(reverse('quora:ques_feed'))
                 else:
                     return HttpResponse('User is not Active')
             else:
@@ -125,14 +125,14 @@ def user_login(request):
         'form' : form
     }
 
-    return render(request ,'quora/login.html' ,context )
+    return render(request ,'login.html' ,context )
 
 
 
 @login_required()
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('quora:ques_list'))
+    return HttpResponseRedirect(reverse('quora:ques_feed'))
 
 
 
@@ -157,7 +157,7 @@ def register(request):
         'form' : form
     }
 
-    return render(request , 'quora/register.html',context)
+    return render(request , 'register.html',context)
 
 
 
@@ -215,7 +215,7 @@ def ask_question(request):
             ques.author = request.user
             ques.save()
 
-            return HttpResponseRedirect(reverse('quora:ques_list'))
+            return HttpResponseRedirect(reverse('quora:ques_feed'))
     else:
         form = QuestionAskForm()
 
@@ -223,7 +223,7 @@ def ask_question(request):
         'form' : form
     }
 
-    return render(request , 'quora/ask_question.html',context)
+    return render(request , 'ask_a_ques.html',context)
 
 
 
@@ -262,7 +262,7 @@ def delete_ques(request,id):
 
     if request.method =='POST':
         ques.delete()
-        return HttpResponseRedirect(reverse('quora:ques_list'))
+        return HttpResponseRedirect(reverse('quora:ques_feed'))
 
     context = {
         'ques' : ques

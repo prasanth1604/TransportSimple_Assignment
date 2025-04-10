@@ -1,0 +1,33 @@
+<!-- login.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                        <h1 class="display-5">Log In!</h1>
+                        <hr class="my-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_username">Username:</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password">Password:</label>
+                                {{ form.password }}
+                            </div>
+                            <input type="submit" name="submit" class="btn btn-primary mb-2" value="Login">
+                        </form>
+                        <br>
+                        <a class="align-middle" href="{% url 'password_reset' %}">Forgotten Your password?</a><br>
+                        <h5 class="align-middle">OR</h5>
+                        <a class="align-middle" href="{% url 'quora:register' %}">Create a new account!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

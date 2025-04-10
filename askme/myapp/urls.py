@@ -5,7 +5,7 @@ from . import views
 app_name = 'quora'
 
 urlpatterns = [
-    path('home/',views.ques_list,name = 'ques_list'),
+    path('home/',views.ques_feed,name = 'ques_feed'),
     path('ques/<int:id>/',views.ques_detail,name='ques_detail'),
     path('login/',views.user_login,name = 'user_login'),
     path('logout/',views.user_logout ,name = 'user_logout'),
