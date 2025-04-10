@@ -7,7 +7,7 @@ from myapp import views
 urlpatterns = [
     path('',views.ques_feed),
     path('admin/', admin.site.urls),
-    path('quora/',include('myapp.urls'),name = 'quora'),
+    path('askme/',include('myapp.urls'),name = 'askme'),
     path('',include('django.contrib.auth.urls')),
 ]
 
