@@ -4,10 +4,6 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron jumbotron-fluid">
-                    <div class="container">
                         <h1 class="display-5">Create a new account!</h1>
                         <hr class="my-4">
                         <form method="POST">
@@ -31,11 +27,18 @@
                             <input type="submit" name="submit" class="btn btn-primary mb-2" value="Register">
                             <input type="reset" name="reset" class="btn btn-secondary mb-2" value="Reset">
                         </form>
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                            <ul>
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                            </div>
+                        {% endif %}
                         <br>
                         <a href="{% url 'askme:user_login' %}">Or Log into an existing account!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}

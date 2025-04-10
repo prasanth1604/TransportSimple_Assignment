@@ -24,10 +24,6 @@ def ques_detail(request,id):
 
     replies = Replies.objects.all().filter(ques = ques).order_by('-id')
 
-    is_liked = False
-    if ques.likes.filter(id = request.user.id).exists():
-        is_liked = True
-
     comments =  Comment.objects.all().filter(ques = ques).order_by('-id')
 
     if request.method == 'POST':
@@ -48,8 +44,6 @@ def ques_detail(request,id):
 
     context = {
         'q': ques,
-        'is_liked' : is_liked,
-        'likes_count' : ques.likes.count() ,
         'comments' : comments,
         'comment_form' : comment_form ,
         'replies' : replies,
@@ -57,21 +51,20 @@ def ques_detail(request,id):
 
     return render(request, 'ques_detail.html', context=context)
 
-
-def ques_likes(request):
-
+@login_required
+def like_comment(request,id,comment_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('askme:user_login'))
-
-    ques = get_object_or_404(Question,id = request.POST.get('q_id'))
-
-    if ques.likes.filter(id = request.user.id).exists():
-        ques.likes.remove(request.user)
+    
+    ques = get_object_or_404(Question,id=id)
+    comment = get_object_or_404(Comment,id=comment_id)
+    
+    if request.user in comment.likes.all():
+        comment.likes.remove(request.user)
     else:
-        ques.likes.add(request.user)
-
-    return HttpResponseRedirect(reverse('askme:ques_detail',args=(request.POST.get('q_id'),)))
-
+        comment.likes.add(request.user)
+    
+    return HttpResponseRedirect(reverse('askme:ques_detail', args=[5]))
 
 
 def comment_reply(request,id):
